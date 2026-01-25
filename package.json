@@ -1,0 +1,26 @@
+{
+  "name": "block-break",
+  "version": "1.0.0",
+  "description": "a clone of Block Blast",
+  "main": "darkMode.js",
+  "scripts": {
+    "build": "tailwindcss -i input.css -o dist/styles.css --minify",
+    "watch": "tailwindcss -i input.css -o dist/styles.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichalDakowicz/block-break.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MichalDakowicz/block-break/issues"
+  },
+  "homepage": "https://github.com/MichalDakowicz/block-break#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}

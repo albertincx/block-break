@@ -1,1 +1,6 @@
 .vscode
+.idea/
+logs
+dist/
+node_modules/
+package-lock.json
