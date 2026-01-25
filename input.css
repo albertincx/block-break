@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+    --color-bg-light: #fff;
+    --color-bg-dark: #333;
+}
+
+/* Define variables for JS inline styles and consistency */
+@layer base {
+    :root {
+        --color-red-block: #f44336;
+        --color-green-block: #51ea56;
+        --color-blue-block: #2196f3;
+        --color-yellow-block: #ffeb3b;
+        --color-purple-block: #9c27b0;
+        --color-orange-block: #ff9800;
+        --color-pink-block: #e91e63;
+        --color-cyan-block: #00bcd4;
+    }
+}
+
+/* Dark mode variant setup */
+@variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+    .hidden {
+        display: none !important;
+    }
+
+    .abs {
+        position: absolute;
+    }
+}
+
+/* Replicating complex classes with @apply for cleaner JS/HTML integration */
+.square {
+    @apply flex items-center justify-center text-2xl text-black dark:text-[#eee] shadow-[inset_0_0_20px_#00000033];
+}
+
+.square:not(.preview):not(.preview-wrong) {
+    @apply border border-gray-300 dark:border-gray-600;
+}
+
+.block-pick {
+    @apply flex items-center justify-center border-2 border-gray-300 dark:border-gray-500 rounded-[5px] bg-transparent w-[80%] m-[10px] relative overflow-hidden cursor-pointer transition-colors duration-300 select-none touch-none;
+}
+
+.block-pick:hover:not(.selected) {
+    @apply bg-gray-200 dark:bg-[#3b3b3b];
+}
+
+.block-pick:hover:not(.selected)>div>div {
+    @apply bg-gray-200 dark:bg-[#3b3b3b];
+}
+
+.selected {
+    @apply border-[3px] border-[#cacaca] dark:border-[#b2b2b2] brightness-90 dark:brightness-125;
+}
+
+.joystick-base {
+    @apply w-[60px] h-[60px] rounded-full bg-[#64646433] border-2 border-[#9696964D] backdrop-blur-[2px] relative shadow-md transition-opacity duration-300 dark:bg-[#00000066] dark:border-[#FFFFFF1A];
+}
+
+.joystick-stick {
+    @apply w-[30px] h-[30px] rounded-full bg-[#C8C8C8CC] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-sm dark:bg-[#FFFFFF80];
+}
+
+.preview:not(.preview-wrong) {
+    @apply bg-[#00000033] border border-dashed border-black dark:border-[#eee] brightness-75;
+}
+
+.preview-wrong {
+    @apply relative outline-[2px] outline-dashed outline-[#aa1515];
+}
+
+.preview-wrong::after {
+    content: "";
+    @apply absolute w-full h-full bg-[#FF000033] pointer-events-none;
+}
+
+/* Specific roundings */
+.square[data-row="0"][data-col="0"] {
+    @apply rounded-tl-[10px];
+}
+
+.square[data-row="0"][data-col="8"] {
+    @apply rounded-tr-[10px];
+}
+
+.square[data-row="8"][data-col="0"] {
+    @apply rounded-bl-[10px];
+}
+
+.square[data-row="8"][data-col="8"] {
+    @apply rounded-br-[10px];
+}
+
+body {
+    @apply font-sans bg-white text-black dark:bg-[#333] dark:text-[#eee] transition-colors duration-300 flex flex-col items-center justify-center max-h-screen m-0;
+}
+
+/* Mode 99 Visual Grid */
+.mode-99 .square[data-col="2"],
+.mode-99 .square[data-col="5"] {
+    border-right-width: 3px !important;
+    border-right-color: #888 !important;
+}
+
+/* Dark mode adjustment for grid lines */
+:where(.dark .mode-99 .square[data-col="2"]),
+:where(.dark .mode-99 .square[data-col="5"]) {
+    border-right-color: #666 !important;
+}
+
+.mode-99 .square[data-row="2"],
+.mode-99 .square[data-row="5"] {
+    border-bottom-width: 3px !important;
+    border-bottom-color: #888 !important;
+}
+
+:where(.dark .mode-99 .square[data-row="2"]),
+:where(.dark .mode-99 .square[data-row="5"]) {
+    border-bottom-color: #666 !important;
+}

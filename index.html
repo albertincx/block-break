@@ -1,76 +1,128 @@
 <!DOCTYPE html>
+<!-- Build: v1.2.0 (260125) -->
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, user-scalable=no"
-        />
-        <title>Block Break</title>
-        <link rel="stylesheet" href="style.css" />
-        <link rel="icon" type="image/png" href="img/logo.png" />
-    </head>
-    <body>
-        <div id="refresh">
-            <img
-                id="refresh-icon"
-                src="img/refresh_light.svg"
-                alt="Refresh Icon"
-            />
-            <h2>Reset</h2>
-        </div>
-        <div class="container">
-            <div id="top">
-                <div id="scores">
-                    <div class="item">
-                        <img src="img/crown.svg" alt="Crown Icon" />
-                        <h2 id="high-score">0</h2>
-                    </div>
-                    <h1 id="score">0</h1>
-                    <div class="item">
-                        <h2 id="lives">3</h2>
-                        <img src="img/heart.svg" alt="Heart Icon" />
-                    </div>
-                </div>
 
-                <div id="dark-mode-toggle">
-                    <b>Dark Mode</b>
-                    <input type="checkbox" id="dark-mode" />
-                    <label for="dark-mode"></label>
-                </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="version" content="1.2.0" />
+    <meta name="build" content="260125" />
+    <title>Block Break</title>
+    <link rel="stylesheet" href="dist/styles.css" />
+    <link rel="icon" type="image/png" href="img/logo.png" />
+</head>
+
+<body class="dark">
+    <div id="log1" class="abs"></div>
+    <div
+        class="container p-5 border border-gray-300 dark:border-gray-600 rounded-[30px] shadow-md bg-white dark:bg-[#333] text-black dark:text-[#eee] transition-colors duration-300 flex flex-col items-center justify-center">
+        <div id="top-buttons" class="flex justify-center items-center gap-[15px] w-full max-sm:gap-[15px]">
+            <div id="refresh"
+                class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] px-[15px] py-[8px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px]">
+                <img id="refresh-icon" src="img/refresh_dark.svg" alt="Refresh Icon" class="mr-[8px] h-[20px]" />
+                <h2 class="text-base m-0 max-sm:text-[1.1rem]">Reset</h2>
             </div>
-
-            <div id="combo-info" class="hidden">
-                <h2>Combo: <span id="combo-count">0</span></h2>
-                <div id="combo-progress">
-                    <div id="combo-progress-bar"></div>
-                </div>
+            <div id="show-scores"
+                class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] px-[15px] py-[8px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px]">
+                <img id="crown-icon" src="img/crown.svg" alt="Crown Icon" style="width: 20px; margin-right: 8px;" />
+                <h2 class="text-base m-0 max-sm:text-[1.1rem]">Scores</h2>
             </div>
-
-            <div id="game">
-                <div id="squares"></div>
-
-                <div
-                    id="block-select"
-                    ontouchstart="event.preventDefault();"
-                ></div>
+            <div id="game-mode-toggle"
+                class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] px-[15px] py-[8px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px]">
+                <h2 id="game-mode-text" class="text-base m-0 max-sm:text-[1.1rem]">Classic</h2>
             </div>
-
-            <div id="game-over" class="hidden">
-                <h2>Game Over</h2>
-                <p>No more valid moves!</p>
-                <button id="reshuffle-blocks">Reshuffle (-1 Life)</button>
-                <button id="reset-game-no-lives">Reset Game</button>
+            <div id="mute-toggle" title="Toggle Sound"
+                class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] p-[8px] w-[40px] h-[40px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px] relative box-border">
+                <span id="mute-icon" class="text-[1.2rem]">🔊</span>
             </div>
-
-            <div id="game-over-no-lives" class="hidden">
-                <h2>Game Over</h2>
-                <h3 id="score-end"></h3>
-                <p>No more lives!</p>
-                <button id="reset-game-no-lives-dialog">Reset Game</button>
+            <div id="volume-popup"
+                class="hidden absolute top-[60px] right-[20px] bg-white dark:bg-[#333] border border-gray-300 dark:border-gray-600 p-[10px] rounded-[10px] shadow-lg z-[1000] flex items-center justify-center">
+                <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5"
+                    class="appearance-none w-[100px] h-[6px] bg-[#eee] rounded-[3px] outline-none accent-blue-block">
             </div>
         </div>
-        <script src="script.js"></script>
-        <script src="darkMode.js"></script>
-    </body>
+        <div id="top" class="flex flex-row justify-between w-full">
+            <div id="scores"
+                class="py-[10px] w-[640px] flex flex-1 justify-between items-center relative mr-[20px] max-sm:w-[320px] max-sm:mr-0">
+                <div class="item flex flex-row">
+                    <img src="img/crown.svg" alt="Crown Icon" />
+                    <h2 id="high-score" class="m-0">0</h2>
+                </div>
+                <h1 id="score" class="absolute left-1/2 -translate-x-1/2 m-0">0</h1>
+                <div class="item flex flex-row">
+                    <h2 id="lives" class="m-0">3</h2>
+                    <img src="img/heart.svg" alt="Heart Icon" />
+                </div>
+            </div>
+
+        </div>
+
+        <div id="combo-info" class="hidden flex flex-col items-center w-full max-sm:w-[320px]">
+            <h2 class="m-0 mb-[10px] text-[1.2rem] text-center">Combo: <span id="combo-count">0</span></h2>
+            <div id="combo-progress"
+                class="w-full h-[15px] bg-gray-300 dark:bg-gray-600 rounded-[10px] overflow-hidden mb-[10px]">
+                <div id="combo-progress-bar" class="h-full bg-green-block w-full transition-[width] duration-300"></div>
+            </div>
+        </div>
+
+        <div id="game" class="flex flex-row justify-center w-full max-w-[800px] items-center max-sm:flex-col">
+            <div id="squares"
+                class="grid grid-columns-9 grid-cols-9 gap-0 mb-0 w-full max-w-[640px] h-[640px] max-sm:w-[360px] max-sm:h-[360px]">
+            </div>
+
+            <div id="block-select" ontouchstart="event.preventDefault();"
+                class="flex flex-col justify-center items-center w-[198px] h-[638px] border border-gray-300 dark:border-gray-600 rounded-[10px] ml-[20px] max-sm:w-[320px] max-sm:h-[98px] max-sm:ml-0 max-sm:mt-[20px] max-sm:flex-row">
+            </div>
+        </div>
+
+        <div id="joystick-layer"
+            class="max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:w-full max-sm:h-[100px] max-sm:flex max-sm:justify-around max-sm:items-center max-sm:pointer-events-none max-sm:z-[900]">
+            <!-- Joysticks will be injected here by script.js -->
+        </div>
+
+        <div id="game-over"
+            class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffffffdd] dark:bg-[#333333dd] text-black dark:text-[#eee] p-[20px] rounded-[10px] w-[40%] shadow-lg text-center z-10 max-sm:w-[90%]">
+            <h2>Game Over</h2>
+            <p>No more valid moves!</p>
+            <button id="reshuffle-blocks"
+                class="mt-[10px] bg-[#444] text-white hover:bg-[#333] dark:hover:bg-[#222] px-5 py-2.5 rounded text-base transition-colors duration-300 cursor-pointer border-none">Reshuffle
+                (-1 Life)</button>
+            <button id="reset-game-no-lives"
+                class="mt-[10px] bg-[#444] text-white hover:bg-[#333] dark:hover:bg-[#222] px-5 py-2.5 rounded text-base transition-colors duration-300 cursor-pointer border-none">Reset
+                Game</button>
+        </div>
+
+        <div id="game-over-no-lives"
+            class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffffffdd] dark:bg-[#333333dd] text-black dark:text-[#eee] p-[20px] rounded-[10px] w-[40%] shadow-lg text-center z-10 max-sm:w-[90%]">
+            <h2>Game Over</h2>
+            <h3 id="score-end"></h3>
+            <p>No more lives!</p>
+            <button id="reset-game-no-lives-dialog"
+                class="mt-[10px] bg-[#444] text-white hover:bg-[#333] dark:hover:bg-[#222] px-5 py-2.5 rounded text-base transition-colors duration-300 cursor-pointer border-none">Reset
+                Game</button>
+        </div>
+        <div id="version"
+            class="absolute bottom-[10px] right-[20px] text-[0.7rem] text-black dark:text-[#eee] opacity-50 font-mono">
+            v1.2.0 (build 260125)</div>
+    </div>
+    <div id="high-scores-modal"
+        class="hidden fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.8)] flex justify-center items-center z-[1000]">
+        <div id="high-scores-content"
+            class="bg-white dark:bg-[#333] text-black dark:text-[#eee] p-[30px] rounded-[20px] w-[80%] max-w-[400px] relative text-center border border-gray-300 dark:border-gray-600 shadow-2xl">
+            <span id="close-modal"
+                class="absolute top-[15px] right-[20px] text-[2rem] cursor-pointer text-black dark:text-[#eee]">&times;</span>
+            <h2>High Scores</h2>
+            <ol id="high-scores-list" class="text-left my-[20px] px-0 pl-[30px]">
+                <!-- List items will be injected here. NOTE: li styles are simple, maybe add utility classes in JS or @apply -->
+            </ol>
+            <button id="clear-scores"
+                class="mt-[20px] bg-red-block text-white hover:brightness-90 px-5 py-2.5 rounded text-base transition-all duration-300 cursor-pointer border-none">Clear
+                Scores</button>
+        </div>
+    </div>
+    <script src="sounds.js?v=1.2.260125"></script>
+    <script src="script.js?v=1.2.260125"></script>
+    <script src="darkMode.js?v=1.2.260125"></script>
+</body>
+
 </html>

@@ -1,28 +1,21 @@
+// Dark Mode Switch Logic - v1.2.0 (build 260125)
 document.addEventListener("DOMContentLoaded", () => {
-    const darkModeToggle = document.getElementById("dark-mode");
     const body = document.body;
 
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener("change", () => {
-            if (darkModeToggle.checked) {
-                body.classList.add("dark-mode");
-                localStorage.setItem("darkMode", "enabled");
-            } else {
-                body.classList.remove("dark-mode");
-                localStorage.setItem("darkMode", "disabled");
-            }
-        });
-
-        if (localStorage.getItem("darkMode") === "enabled") {
-            body.classList.add("dark-mode");
-            darkModeToggle.checked = true;
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode === "disabled") {
+        body.classList.remove("dark");
+    } else {
+        body.classList.add("dark");
+        if (savedMode === null) {
+            localStorage.setItem("darkMode", "enabled");
         }
     }
 
     const refreshIcon = document.getElementById("refresh-icon");
 
     function updateRefreshIcon() {
-        if (body.classList.contains("dark-mode")) {
+        if (body.classList.contains("dark")) {
             refreshIcon.src = "img/refresh_dark.svg";
         } else {
             refreshIcon.src = "img/refresh_light.svg";
@@ -30,7 +23,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updateRefreshIcon();
-
-    darkModeToggle.addEventListener("change", updateRefreshIcon);
 
 });
