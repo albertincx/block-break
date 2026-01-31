@@ -533,7 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function canPlaceAllBlocks(blocks) {
         const rows = _rows;
         const cols = _cols;
-        const board = Array.from({ length: rows }, () =>
+        const board = Array.from({length: rows}, () =>
             Array(cols).fill(false)
         );
 
@@ -931,7 +931,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (isSquareBreakable) {
-                    breakableSquares.push({ r: rStart, c: cStart });
+                    breakableSquares.push({r: rStart, c: cStart});
                 }
             }
         }
@@ -1069,7 +1069,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (newScore <= 0) return;
         let highScores = JSON.parse(localStorage.getItem("highScores_list")) || [];
         const date = new Date().toLocaleDateString();
-        highScores.push({ score: newScore, date: date });
+        highScores.push({score: newScore, date: date});
         highScores.sort((a, b) => b.score - a.score);
         highScores = highScores.slice(0, 10);
         localStorage.setItem("highScores_list", JSON.stringify(highScores));
@@ -1223,224 +1223,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let draggedBlock = null;
 
-    // Event listener for starting to drag a block
-    blocksContainer.addEventListener("dragstart", (event) => {
-        if (event.target.classList.contains("block-pick")) {
-            gameSounds.play("pickup");
-            draggedBlock = event.target;
-            event.dataTransfer.setData(
-                "text/plain",
-                event.target.dataset.index
-            );
-
-            const shape = JSON.parse(draggedBlock.dataset.shape);
-            const color = draggedBlock.dataset.color;
-
-            const dragPreview = document.createElement("div");
-            dragPreview.className = "flex flex-col items-center justify-center absolute -top-[9999px]";
-            // dragPreview.style.display = "flex";
-            // dragPreview.style.flexDirection = "column";
-            // dragPreview.style.alignItems = "center";
-            // dragPreview.style.justifyContent = "center";
-            // dragPreview.style.position = "absolute";
-            // dragPreview.style.top = "-9999px";
-
-            shape.forEach((row) => {
-                const rowDiv = document.createElement("div");
-                rowDiv.className = "flex justify-center";
-                row.forEach((cell) => {
-                    const cellDiv = document.createElement("div");
-                    cellDiv.className = "w-[78px] h-[78px] m-0 border border-gray-300 dark:border-gray-600 opacity-50";
-                    // cellDiv.style.width = "78px";
-                    // cellDiv.style.height = "78px";
-                    // cellDiv.style.margin = "0";
-                    // cellDiv.style.border = "1px solid var(--border-color)";
-                    // cellDiv.style.opacity = "0.5";
-                    if (cell) {
-                        cellDiv.style.backgroundColor = color;
-                    } else {
-                        cellDiv.className += " invisible";
-                    }
-                    rowDiv.appendChild(cellDiv);
-                });
-                dragPreview.appendChild(rowDiv);
-            });
-
-            document.body.appendChild(dragPreview);
-            event.dataTransfer.setDragImage(dragPreview, 0, 0);
-            setTimeout(() => document.body.removeChild(dragPreview), 0);
-        }
-    });
-
-    // Event listener for ending the drag of a block
-    blocksContainer.addEventListener("dragend", () => {
-        draggedBlock = null;
-    });
-
-    // Event listener for dragging a block over the grid
-    gridContainer.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        const cell = event.target;
-        if (cell.classList.contains("square")) {
-            const startRow = parseInt(cell.dataset.row);
-            const startCol = parseInt(cell.dataset.col);
-            showPreview(startRow, startCol);
-        }
-    });
-
-    // Event listener for dropping a block on the grid
-    gridContainer.addEventListener("drop", (event) => {
-        event.preventDefault();
-        const cell = event.target;
-        if (!draggedBlock || !cell.classList.contains("square")) return;
-
-        placeBlock(cell, draggedBlock);
-    });
-
-    // Event listener for entering a cell while dragging a block
-    gridContainer.addEventListener("dragenter", (event) => {
-        const cell = event.target;
-        if (cell.classList.contains("square")) {
-            const startRow = parseInt(cell.dataset.row);
-            const startCol = parseInt(cell.dataset.col);
-            showSnappingPreview(startRow, startCol);
-        }
-    });
-
-    // Event listener for dragging a block over the grid
-    gridContainer.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        const cell = event.target;
-        if (cell.classList.contains("square")) {
-            const startRow = parseInt(cell.dataset.row);
-            const startCol = parseInt(cell.dataset.col);
-            showSnappingPreview(startRow, startCol);
-        }
-    });
-
-    // Event listener for leaving a cell while dragging a block
-    gridContainer.addEventListener("dragleave", () => {
-        clearPreview();
-    });
-
-    // Event listener for dropping a block on the grid
-    gridContainer.addEventListener("drop", (event) => {
-        event.preventDefault();
-        const cell = event.target;
-        if (!draggedBlock || !cell.classList.contains("square")) return;
-
-        placeBlock(cell, draggedBlock);
-    });
-
-    // Event listener for entering a cell while dragging a block
-    gridContainer.addEventListener("dragenter", (event) => {
-        const cell = event.target;
-        if (cell.classList.contains("square")) {
-            const startRow = parseInt(cell.dataset.row);
-            const startCol = parseInt(cell.dataset.col);
-            showSnappingPreview(startRow, startCol);
-        }
-    });
-
-    let touchStartX = 0;
-    let touchStartY = 0;
+    // Track if the block was successfully placed
+    let blockSuccessfullyPlaced = false;
     let touchDraggingBlock = null;
     let touchDragPreview = null;
     let previewCell = null;
-
-    // Event listener for starting to touch a block
-    blocksContainer.addEventListener("touchstart", (event) => {
-        const touch = event.touches[0];
-        const target = document.elementFromPoint(touch.clientX, touch.clientY);
-        const block = target.closest(".block-pick");
-        if (block) {
-            gameSounds.play("pickup");
-            touchDraggingBlock = block;
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-            block.classList.add("dragging");
-
-            const shape = JSON.parse(block.dataset.shape);
-            const color = block.dataset.color;
-
-            touchDragPreview = document.createElement("div");
-            touchDragPreview.className = "flex flex-col items-center justify-center fixed pointer-events-none z-[1000] -translate-x-1/2 -translate-y-1/2";
-            touchDragPreview.style.left = `${touch.clientX}px`;
-            touchDragPreview.style.top = `${touch.clientY - 80}px`;
-            // touchDragPreview.style.transform = "translate(-50%, -50%)";
-
-            shape.forEach((row) => {
-                const rowDiv = document.createElement("div");
-                rowDiv.style.display = "flex";
-                rowDiv.style.justifyContent = "center";
-                row.forEach((cell) => {
-                    const cellDiv = document.createElement("div");
-                    cellDiv.style.width = "38px";
-                    cellDiv.style.height = "38px";
-                    cellDiv.style.margin = "0";
-                    cellDiv.style.border = "1px solid var(--border-color)";
-                    cellDiv.style.opacity = "0.5";
-                    if (cell) {
-                        cellDiv.style.backgroundColor = color;
-                    } else {
-                        cellDiv.style.visibility = "hidden";
-                    }
-                    rowDiv.appendChild(cellDiv);
-                });
-                touchDragPreview.appendChild(rowDiv);
-            });
-
-            document.body.appendChild(touchDragPreview);
-        }
-    });
-
-    // Event listener for moving a touch while dragging a block
-    blocksContainer.addEventListener("touchmove", (event) => {
-        if (touchDraggingBlock && touchDragPreview) {
-            event.preventDefault();
-            const touch = event.touches[0];
-            const mappedY = touch.clientY - 160;
-            const touchClientX = touch.clientX + 60
-
-            touchDragPreview.style.left = `${touchClientX}px`;
-            touchDragPreview.style.top = `${mappedY}px`;
-            // console.log(mappedY, touchClientX)
-            // log1.innerHTML = mappedY + " " + touchClientX
-            previewCell = document.elementFromPoint(touchClientX, mappedY);
-            showPreviewOnTouch(touchClientX, mappedY);
-        }
-    });
-
-    // Event listener for ending a touch while dragging a block
-    blocksContainer.addEventListener("touchend", (event) => {
-        if (touchDraggingBlock && touchDragPreview) {
-            touchDraggingBlock.classList.remove("dragging");
-            document.body.removeChild(touchDragPreview);
-            touchDragPreview = null;
-            if (previewCell && previewCell.classList.contains("square")) {
-                placeBlock(previewCell, touchDraggingBlock);
-            }
-            touchDraggingBlock = null;
-            previewCell = null;
-        }
-    });
-
-    // Event listener for starting to touch the grid
-    gridContainer.addEventListener("touchstart", (event) => {
-        if (touchDraggingBlock) {
-            const touch = event.touches[0];
-            const cell = document.elementFromPoint(
-                touch.clientX,
-                touch.clientY
-            );
-            if (cell && cell.classList.contains("square")) {
-                showPreview(
-                    parseInt(cell.dataset.row),
-                    parseInt(cell.dataset.col)
-                );
-            }
-        }
-    });
 
     // Function to show a preview of the block placement on touch
     function showPreviewOnTouch(x, y) {
@@ -1578,6 +1365,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Initialize Drag
             touchDraggingBlock = block;
+
+            // Hide the block in the selection area
+            block.style.visibility = 'hidden';
             block.classList.add("dragging");
 
             const shape = JSON.parse(block.dataset.shape);
@@ -1671,6 +1461,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 touchDragPreview = null;
 
                 if (previewCell && previewCell.classList.contains("square")) {
+                    // console.log('place')
+                    touchDraggingBlock.style.visibility = 'visible';
+
                     placeBlock(previewCell, touchDraggingBlock);
                     // Update joysticks after placement (remove the used one)
                     createJoysticks();
