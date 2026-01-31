@@ -21,8 +21,12 @@ This project is automatically deployed to GitHub Pages. Every push to the `main`
 1. Push this code to your GitHub repository
 2. Go to your repository settings
 3. Scroll down to the "Pages" section
-4. Under "Source", select "GitHub Actions"
+4. Under "Build and deployment", set:
+   - Source: "GitHub Actions"
+   - Branch: "main", "/ (root)"
 5. The site will be published automatically after the next push to `main`
+
+Note: You must configure GitHub Pages in your repository settings before the first deployment will succeed.
 
 The site will be available at: `https://yourusername.github.io/repository-name`
 
