@@ -1461,14 +1461,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 touchDragPreview = null;
 
                 if (previewCell && previewCell.classList.contains("square")) {
-                    // console.log('place')
-                    touchDraggingBlock.style.visibility = 'visible';
-
+                    // Block is placed on the grid
                     placeBlock(previewCell, touchDraggingBlock);
                     // Update joysticks after placement (remove the used one)
                     createJoysticks();
+                } else {
+                    // Block was dropped outside the grid, show it again
+                    gameSounds.play("invalid");
                 }
-
+                touchDraggingBlock.style.visibility = 'visible';
                 touchDraggingBlock = null;
                 previewCell = null;
                 clearPreview();
