@@ -533,7 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function canPlaceAllBlocks(blocks) {
         const rows = _rows;
         const cols = _cols;
-        const board = Array.from({ length: rows }, () =>
+        const board = Array.from({length: rows}, () =>
             Array(cols).fill(false)
         );
 
@@ -931,7 +931,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (isSquareBreakable) {
-                    breakableSquares.push({ r: rStart, c: cStart });
+                    breakableSquares.push({r: rStart, c: cStart});
                 }
             }
         }
@@ -1069,7 +1069,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (newScore <= 0) return;
         let highScores = JSON.parse(localStorage.getItem("highScores_list")) || [];
         const date = new Date().toLocaleDateString();
-        highScores.push({ score: newScore, date: date });
+        highScores.push({score: newScore, date: date});
         highScores.sort((a, b) => b.score - a.score);
         highScores = highScores.slice(0, 10);
         localStorage.setItem("highScores_list", JSON.stringify(highScores));
@@ -1228,6 +1228,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target.classList.contains("block-pick")) {
             gameSounds.play("pickup");
             draggedBlock = event.target;
+
+            // Hide the dragged block
+            draggedBlock.style.visibility = 'hidden';
+
             event.dataTransfer.setData(
                 "text/plain",
                 event.target.dataset.index
@@ -1272,8 +1276,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Track if the block was successfully placed
+    let blockSuccessfullyPlaced = false;
+
     // Event listener for ending the drag of a block
     blocksContainer.addEventListener("dragend", () => {
+        if (draggedBlock && document.contains(draggedBlock) && !blockSuccessfullyPlaced) {
+            // Show the dragged block again if it wasn't placed
+            draggedBlock.style.visibility = 'visible';
+        }
+        // Reset the flag
+        blockSuccessfullyPlaced = false;
         draggedBlock = null;
     });
 
@@ -1294,6 +1307,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cell = event.target;
         if (!draggedBlock || !cell.classList.contains("square")) return;
 
+        blockSuccessfullyPlaced = true;
         placeBlock(cell, draggedBlock);
     });
 
@@ -1358,6 +1372,9 @@ document.addEventListener("DOMContentLoaded", () => {
             touchDraggingBlock = block;
             touchStartX = touch.clientX;
             touchStartY = touch.clientY;
+
+            // Hide the touched block
+            block.style.visibility = 'hidden';
             block.classList.add("dragging");
 
             const shape = JSON.parse(block.dataset.shape);
@@ -1578,6 +1595,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Initialize Drag
             touchDraggingBlock = block;
+
+            // Hide the block in the selection area
+            block.style.visibility = 'hidden';
             block.classList.add("dragging");
 
             const shape = JSON.parse(block.dataset.shape);
@@ -1671,6 +1691,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 touchDragPreview = null;
 
                 if (previewCell && previewCell.classList.contains("square")) {
+                    // console.log('place')
+                    touchDraggingBlock.style.visibility = 'visible';
+
                     placeBlock(previewCell, touchDraggingBlock);
                     // Update joysticks after placement (remove the used one)
                     createJoysticks();
