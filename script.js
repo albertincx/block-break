@@ -1320,10 +1320,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (count <= 2) justifyClass = "justify-center gap-[20px]"; // Added gap for spacing when centered
 
         // Update block select container
-        blocksContainer.className = `flex flex-col justify-center items-center w-[198px] h-[638px] border border-gray-300 dark:border-gray-600 rounded-[10px] ml-[20px] max-sm:w-[320px] max-sm:h-[98px] max-sm:ml-0 max-sm:mt-[20px] max-sm:flex-row ${justifyClass}`;
+        blocksContainer.className = `flex flex-row justify-center items-center w-[320px] h-[98px] border border-gray-300 dark:border-gray-600 rounded-[10px] ml-0 mt-[20px] ${justifyClass}`;
 
         // Update joystick layer container
-        joystickLayer.className = `max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:w-full max-sm:h-[100px] max-sm:flex max-sm:items-center max-sm:pointer-events-none max-sm:z-[900] ${justifyClass}`;
+        joystickLayer.className = `fixed bottom-0 left-0 w-full h-[100px] flex items-center pointer-events-none z-[900] ${justifyClass}`;
 
         // Create exactly 'count' joysticks, mapped to the blocks
         blocks.forEach((block, index) => {

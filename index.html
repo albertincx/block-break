@@ -16,20 +16,20 @@
 <div id="log1" class="abs"></div>
 <div
         class="container p-5 border border-gray-300 dark:border-gray-600 rounded-[30px] shadow-md bg-white dark:bg-[#333] text-black dark:text-[#eee] transition-colors duration-300 flex flex-col items-center justify-center">
-    <div id="top-buttons" class="flex justify-center items-center gap-[15px] w-full max-sm:gap-[15px]">
+    <div id="top-buttons" class="flex justify-center items-center gap-[15px] w-full gap-[15px]">
         <div id="refresh"
              class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] px-[15px] py-[8px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px]">
             <img id="refresh-icon" src="img/refresh_dark.svg" alt="Refresh Icon" class="mr-[8px] h-[20px]"/>
-            <h2 class="text-base m-0 max-sm:text-[1.1rem]">Reset</h2>
+            <h2 class="text-base m-0 text-[1.1rem]">Reset</h2>
         </div>
         <div id="show-scores"
              class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] px-[15px] py-[8px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px]">
             <img id="crown-icon" src="img/crown.svg" alt="Crown Icon" style="width: 20px; margin-right: 8px;"/>
-            <h2 class="text-base m-0 max-sm:text-[1.1rem]">Scores</h2>
+            <h2 class="text-base m-0 text-[1.1rem]">Scores</h2>
         </div>
         <div id="game-mode-toggle"
              class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] px-[15px] py-[8px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px]">
-            <h2 id="game-mode-text" class="text-base m-0 max-sm:text-[1.1rem]">Classic</h2>
+            <h2 id="game-mode-text" class="text-base m-0 text-[1.1rem]">Classic</h2>
         </div>
         <div id="mute-toggle" title="Toggle Sound"
              class="flex justify-center items-center cursor-pointer bg-[#eee] dark:bg-[#444] hover:bg-[#ddd] dark:hover:bg-[#3b3b3b] p-[8px] w-[40px] h-[40px] rounded-[12px] border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:-translate-y-[2px] relative box-border">
@@ -43,7 +43,7 @@
     </div>
     <div id="top" class="flex flex-row justify-between w-full">
         <div id="scores"
-             class="py-[10px] w-[640px] flex flex-1 justify-between items-center relative mr-[20px] max-sm:w-[320px] max-sm:mr-0">
+             class="py-[10px] w-[320px] flex flex-1 justify-between items-center relative mr-0">
             <div class="item flex flex-row">
                 <img src="img/crown.svg" alt="Crown Icon"/>
                 <h2 id="high-score" class="m-0">0</h2>
@@ -57,7 +57,7 @@
 
     </div>
 
-    <div id="combo-info" class="hidden flex flex-col items-center w-full max-sm:w-[320px]">
+    <div id="combo-info" class="hidden flex flex-col items-center w-full w-[320px]">
         <h2 class="m-0 mb-[10px] text-[1.2rem] text-center">Combo: <span id="combo-count">0</span></h2>
         <div id="combo-progress"
              class="w-full h-[15px] bg-gray-300 dark:bg-gray-600 rounded-[10px] overflow-hidden mb-[10px]">
@@ -65,23 +65,23 @@
         </div>
     </div>
 
-    <div id="game" class="flex flex-row justify-center w-full max-w-[800px] items-center max-sm:flex-col">
+    <div id="game" class="flex flex-col justify-center w-full max-w-[800px] items-center">
         <div id="squares"
-             class="grid grid-columns-9 grid-cols-9 gap-0 mb-0 w-full max-w-[640px] h-[640px] max-sm:w-[360px] max-sm:h-[360px]">
+             class="grid grid-columns-9 grid-cols-9 gap-0 mb-0 w-full max-w-[360px] h-[360px]">
         </div>
 
         <div id="block-select" ontouchstart="event.preventDefault();"
-             class="flex flex-col justify-center items-center w-[198px] h-[638px] border border-gray-300 dark:border-gray-600 rounded-[10px] ml-[20px] max-sm:w-[320px] max-sm:h-[98px] max-sm:ml-0 max-sm:mt-[20px] max-sm:flex-row">
+             class="flex flex-row justify-center items-center w-[320px] h-[98px] border border-gray-300 dark:border-gray-600 rounded-[10px] ml-0 mt-[20px]">
         </div>
     </div>
 
     <div id="joystick-layer"
-         class="max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:w-full max-sm:h-[100px] max-sm:flex max-sm:justify-around max-sm:items-center max-sm:pointer-events-none max-sm:z-[900]">
+         class="fixed bottom-0 left-0 w-full h-[100px] flex justify-around items-center pointer-events-none z-[900]">
         <!-- Joysticks will be injected here by script.js -->
     </div>
 
     <div id="game-over"
-         class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffffffdd] dark:bg-[#333333dd] text-black dark:text-[#eee] p-[20px] rounded-[10px] w-[40%] shadow-lg text-center z-10 max-sm:w-[90%]">
+         class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffffffdd] dark:bg-[#33333333dd] text-black dark:text-[#eee] p-[20px] rounded-[10px] w-[90%] shadow-lg text-center z-10">
         <h2>Game Over</h2>
         <p>No more valid moves!</p>
         <button id="reshuffle-blocks"
@@ -97,7 +97,7 @@
     </div>
 
     <div id="game-over-no-lives"
-         class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffffffdd] dark:bg-[#333333dd] text-black dark:text-[#eee] p-[20px] rounded-[10px] w-[40%] shadow-lg text-center z-10 max-sm:w-[90%]">
+         class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffffffdd] dark:bg-[#333333dd] text-black dark:text-[#eee] p-[20px] rounded-[10px] w-[90%] shadow-lg text-center z-10">
         <h2>Game Over</h2>
         <h3 id="score-end"></h3>
         <p>No more lives!</p>
