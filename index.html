@@ -14,7 +14,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXY7N230LH"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-ZXY7N230LH');
@@ -90,7 +94,7 @@
     </div>
 
     <div id="game-over"
-         class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ffffffdd] dark:bg-[#33333333dd] text-black dark:text-[#eee] p-[20px] rounded-[10px] w-[90%] shadow-lg text-center z-10">
+         class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#333333dd] text-[#eee] p-[20px] rounded-[10px] w-[90%] shadow-lg text-center z-10">
         <h2>Game Over</h2>
         <p>No more valid moves!</p>
         <button id="reshuffle-blocks"
@@ -138,6 +142,7 @@
         </button>
     </div>
 </div>
+<div class="hidden brightness-[0.3] grayscale-1"></div>
 <script src="sounds.js?v=1.2.260125"></script>
 <script src="script.js?v=1.2.260125"></script>
 <script src="darkMode.js?v=1.2.260125"></script>

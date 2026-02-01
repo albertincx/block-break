@@ -1002,6 +1002,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                     });
 
+                    if (!canPlace) {
+                        block.classList.add("brightness-[0.3]");
+                    } else {
+                        block.classList.remove("brightness-[0.3]");
+                    }
                     if (canPlace) {
                         return true;
                     }

@@ -66,7 +66,7 @@
 }
 
 .preview:not(.preview-wrong) {
-    @apply bg-[#ffffff66] border border-dashed border-blue-500 dark:border-blue-400 brightness-100;
+    @apply bg-[#ffffff44] border border-dashed border-green-700 dark:border-green-700 brightness-100;
 }
 
 .preview-wrong {
