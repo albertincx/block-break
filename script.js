@@ -276,6 +276,16 @@ document.addEventListener("DOMContentLoaded", () => {
             [1, 1, 1],
         ],
         [
+            [0, 1, 0],
+            [1, 1, 1],
+            [0, 1, 0],
+        ],
+        [
+            [1, 1, 1],
+            [0, 1, 0],
+            [0, 1, 0],
+        ],
+        [
             [1, 1, 0],
             [0, 1, 1],
         ],
@@ -465,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < 3; i++) {
             let blockShape, blockColor, blockElement;
             do {
-                // Filter out 3x3 block in Mode 99
+                // Filter out 3x3 block, diagonal line shapes, and long line shapes in Mode 99
                 let availableShapes = blockShapes;
                 if (gameMode === "99") {
                     availableShapes = blockShapes.filter(shape => {
@@ -476,6 +486,83 @@ document.addEventListener("DOMContentLoaded", () => {
                             shape[2].every(c => c === 1)) {
                             return false;
                         }
+
+                        // Skip diagonal line shapes
+                        // Diagonal: [1,0,0],[0,1,0],[0,0,1]
+                        if (shape.length === 3 && shape[0].length === 3 &&
+                            shape[0][0] === 1 && shape[0][1] === 0 && shape[0][2] === 0 &&
+                            shape[1][0] === 0 && shape[1][1] === 1 && shape[1][2] === 0 &&
+                            shape[2][0] === 0 && shape[2][1] === 0 && shape[2][2] === 1) {
+                            return false;
+                        }
+
+                        // Diagonal: [0,0,1],[0,1,0],[1,0,0]
+                        if (shape.length === 3 && shape[0].length === 3 &&
+                            shape[0][0] === 0 && shape[0][1] === 0 && shape[0][2] === 1 &&
+                            shape[1][0] === 0 && shape[1][1] === 1 && shape[1][2] === 0 &&
+                            shape[2][0] === 1 && shape[2][1] === 0 && shape[2][2] === 0) {
+                            return false;
+                        }
+
+                        // Diagonal: [1,0],[0,1]
+                        if (shape.length === 2 && shape[0].length === 2 &&
+                            shape[0][0] === 1 && shape[0][1] === 0 &&
+                            shape[1][0] === 0 && shape[1][1] === 1) {
+                            return false;
+                        }
+
+                        // Diagonal: [0,1],[1,0]
+                        if (shape.length === 2 && shape[0].length === 2 &&
+                            shape[0][0] === 0 && shape[0][1] === 1 &&
+                            shape[1][0] === 1 && shape[1][1] === 0) {
+                            return false;
+                        }
+
+                        // Skip long line shapes (5 in a row/column)
+                        // Horizontal line of 5: [1,1,1,1,1]
+                        if (shape.length === 1 && shape[0].length === 5 &&
+                            shape[0].every(c => c === 1)) {
+                            return false;
+                        }
+
+                        // Vertical line of 5: [1],[1],[1],[1],[1]
+                        if (shape.length === 5 && shape.every(row => row.length === 1 && row[0] === 1)) {
+                            return false;
+                        }
+
+                        // Skip 2x3 rectangle: [1,1,1],[1,1,1]
+                        if (shape.length === 2 && shape[0].length === 3 && shape[1].length === 3 &&
+                            shape[0].every(c => c === 1) && shape[1].every(c => c === 1)) {
+                            return false;
+                        }
+
+                        // Skip 3x2 rectangle: [1,1],[1,1],[1,1]
+                        if (shape.length === 3 && shape.every(row => row.length === 2 && row.every(c => c === 1))) {
+                            return false;
+                        }
+
+                        // Skip cross shapes
+                        // 3x3 cross: [0,1,0],[1,1,1],[0,1,0]
+                        // if (shape.length === 3 && shape[0].length === 3 &&
+                        //     shape[0][0] === 0 && shape[0][1] === 1 && shape[0][2] === 0 &&
+                        //     shape[1][0] === 1 && shape[1][1] === 1 && shape[1][2] === 1 &&
+                        //     shape[2][0] === 0 && shape[2][1] === 1 && shape[2][2] === 0) {
+                        //     return false;
+                        // }
+                        //
+                        // // 3x3 cross variant: [1,0,1],[0,1,0],[1,0,1]
+                        // if (shape.length === 3 && shape[0].length === 3 &&
+                        //     shape[0][0] === 1 && shape[0][1] === 0 && shape[0][2] === 1 &&
+                        //     shape[1][0] === 0 && shape[1][1] === 1 && shape[1][2] === 0 &&
+                        //     shape[2][0] === 1 && shape[2][1] === 0 && shape[2][2] === 1) {
+                        //     return false;
+                        // }
+                        //
+                        // // Skip single cell: [1]
+                        // if (shape.length === 1 && shape[0].length === 1 && shape[0][0] === 1) {
+                        //     return false;
+                        // }
+
                         return true;
                     });
                 }
