@@ -1442,8 +1442,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const currentBlockY = initialBlockY + (deltaY * sensitivity);
 
             if (touchDragPreview) {
-                touchDragPreview.style.left = `${currentBlockX + 40}px`;
-                touchDragPreview.style.top = `${currentBlockY + 50}px`;
+                touchDragPreview.style.left = `${currentBlockX + 20}px`;
+                touchDragPreview.style.top = `${currentBlockY + 30}px`;
 
                 // Update preview on grid
                 previewCell = document.elementFromPoint(currentBlockX, currentBlockY);
