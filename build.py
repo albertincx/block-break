@@ -129,6 +129,15 @@ def main():
         shutil.copy(MANIFEST_FILE, manifest_output_path)
         print(f"Copied {MANIFEST_FILE} to {manifest_output_path}")
 
+    # Copy img directory to dist directory for PWA icons
+    img_dir = 'img'
+    if os.path.exists(img_dir):
+        img_output_path = os.path.join(OUTPUT_DIR, img_dir)
+        if os.path.exists(img_output_path):
+            shutil.rmtree(img_output_path)  # Remove existing img dir if present
+        shutil.copytree(img_dir, img_output_path)
+        print(f"Copied {img_dir} directory to {img_output_path}")
+
     print("Done!")
 
 if __name__ == '__main__':
