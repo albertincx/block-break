@@ -3,11 +3,13 @@ import re
 import base64
 import mimetypes
 import datetime
+import shutil
 
 # Configuration
 INPUT_FILE = 'index.html'
 OUTPUT_DIR = 'dist'
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'index.html')
+MANIFEST_FILE = 'manifest.json'
 
 def generate_build_id():
     now = datetime.datetime.now()
@@ -110,17 +112,23 @@ def main():
 
     print("Embedding CSS...")
     html_content = embed_css(html_content)
-    
+
     print("Embedding JS...")
     html_content = embed_js(html_content, build_id)
-    
+
     print("Embedding Images...")
     html_content = embed_images(html_content)
 
     print(f"Writing to {OUTPUT_FILE}...")
     with open(OUTPUT_FILE, 'w') as f:
         f.write(html_content)
-    
+
+    # Copy manifest.json to dist directory
+    if os.path.exists(MANIFEST_FILE):
+        manifest_output_path = os.path.join(OUTPUT_DIR, MANIFEST_FILE)
+        shutil.copy(MANIFEST_FILE, manifest_output_path)
+        print(f"Copied {MANIFEST_FILE} to {manifest_output_path}")
+
     print("Done!")
 
 if __name__ == '__main__':
